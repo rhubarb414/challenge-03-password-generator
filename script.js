@@ -9,7 +9,7 @@ var passwordCriteria = {
   chooseSpecial: 0,
 };
 
-var pwdChar = {
+var pwdCharsAll = {
   lowercaseLetters: ['a','b','c','d','e','f','g','h','i','k','j',
   'l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'],
   uppercaseLetters: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 
@@ -18,6 +18,8 @@ var pwdChar = {
   specialChar: ['!','#','$','%','&','(',')','*','+','-','.','/',':',';','<','=','>','?','@','^','_','`','|','~'],
 
 }
+
+var pwdCharsSelect = [];
 
 /**** psuedo code 
  * generatePassword = function() {
@@ -64,14 +66,34 @@ function generatePassword() {
 
   alert("We'll begin by setting your password criteria.");
 
+  // prompt user for a password length
   // get password length from user
-  var passwordLength = prompt("Enter number between 8 - 128 for your password length:");
-  for (var i = 0; i < passwordLength; i++) {
-    passwordArray[i] = pwdChar.lowercaseLetters[i];
-  } 
+  if (confirm("Click 'OK' if you'd like to choose a specific password length. Otherwise, a random length will be chosen.")) {
+    passwordLength = prompt("Enter number between 8 - 128 for your password length:");
+    for (var i = 0; i < passwordLength; i++) {
+      passwordArray[i] = pwdCharsAll.lowercaseLetters[Math.floor(Math.random() * pwdCharsAll.lowercaseLetters.length)];
+    } 
+    //needs to be a random length between 8 and 128
+    // maybe once I know the user selection of characters, i can make an array combining them all.
+    // though then I would need to check at at the end to make sure one of each got select.
+    //
+    //instead, I could start with a password containing all of one type of character.
+    // then iterate through the remaining types while using 1 less character than the previous type.
+    // then there should at least be one of each type of character left?
+  } else {for (var i = 0; i < 26; i++) {
+    passwordArray[i] = pwdCharsAll.lowercaseLetters[i];
+  }
+
+  }
+
+
+  
+  
 
   //
   // can delete "password" and use return to pass the actual password to the var "password" in writePassword()
+  //so:
+  // return(passwordArray.join(''));
   password = passwordArray.join('');
     console.log(password);
   return(password);
