@@ -43,13 +43,9 @@ var pwdCharsSelect = [];
  * 
  * 
 */
-// function chooseLength(){
-//  if (confirm(
-//   "Click 'OK' if you'd like to choose a specific password length. Otherwise, a random length from 8 - 128 characters will be chosen."
-// )){
-//   prompt("Type a value between 8 - 128 to set the length of your password")
 
-// }}
+
+
 
 // function chooseLower() {
 //   return confirm("Click 'OK' if you'd like to include lowercase characters.");
@@ -61,6 +57,8 @@ var pwdCharsSelect = [];
 // function chooseNum(){}
 // function chooseSpecial(){}
 
+
+//returns a random value between 8 and 128
 function randomPasswordLength() {
   do {
     value = Math.floor(Math.random() * 128) + 1;
@@ -70,32 +68,47 @@ function randomPasswordLength() {
   return value;
   }
 
+  //runs prompts for user to select password criteria, generates the password, and returns it
 function generatePassword() {
   var passwordArray = [];
+  var passwordLength; //a value between 8 - 128 given by user or random
+  var chooseLower = false; 
+  var chooseUpper = false; 
+  var chooseNum = false; 
+  var chooseSpecial = false; 
 
   alert("We'll begin by setting your password criteria.");
 
-  // prompt user for a password length
-  // get password length from user
+  // ask user for a password length or create random length
   if (confirm("Click 'OK' if you'd like to choose a specific password length. Otherwise, a random length will be chosen.")) {
     passwordLength = prompt("Enter number between 8 - 128 for your password length:");
-    for (var i = 0; i < passwordLength; i++) {
-      passwordArray[i] = pwdCharsAll.lowercaseLetters[Math.floor(Math.random() * pwdCharsAll.lowercaseLetters.length)];
-    } 
-    //needs to be a random length between 8 and 128
-    // maybe once I know the user selection of characters, i can make an array combining them all.
-    // though then I would need to check at at the end to make sure one of each got select.
-    //
-    //instead, I could start with a password containing all of one type of character.
-    // then iterate through the remaining types while using 1 less character than the previous type.
-    // then there should at least be one of each type of character left?
   } else {
     passwordLength = randomPasswordLength();
-    for (var i = 0; i < passwordLength; i++) {
-    passwordArray[i] = pwdCharsAll.lowercaseLetters[Math.floor(Math.random() * pwdCharsAll.lowercaseLetters.length)];
   }
 
+  //ask user if they want to include lowercase letters
+  if (confirm("Click 'OK' if you'd like to include lowercase characters.")) {
+   chooseLower = true;
   }
+
+  //ask user if they want to include upper letters
+  if (confirm("Click 'OK' if you'd like to include uppercase characters.")) {
+   chooseUpper = true;
+  }
+
+  //ask user if they want to include numbers
+  if (confirm("Click 'OK' if you'd like to include numbers.")) {
+    chooseNum = true;
+  }
+
+  //ask user if they want to include special characters
+   if (confirm("Click 'OK' if you'd like to include special characters.")) {
+    chooseSpecial = true;
+  }
+ 
+ 
+
+
 
 
   
@@ -133,3 +146,30 @@ function writePassword() {
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
+
+
+
+
+
+//-------------//
+
+// working code for random lowercase password //
+
+/*
+alert("We'll begin by setting your password criteria.");
+
+// prompt user for a password length or create random length
+if (confirm("Click 'OK' if you'd like to choose a specific password length. Otherwise, a random length will be chosen.")) {
+  passwordLength = prompt("Enter number between 8 - 128 for your password length:");
+  for (var i = 0; i < passwordLength; i++) {
+    //chooses a random letter from lowercaseLetters for each value in passwordArray
+    passwordArray[i] = pwdCharsAll.lowercaseLetters[Math.floor(Math.random() * pwdCharsAll.lowercaseLetters.length)];
+  } 
+} else {
+  passwordLength = randomPasswordLength();
+  for (var i = 0; i < passwordLength; i++) {
+  passwordArray[i] = pwdCharsAll.lowercaseLetters[Math.floor(Math.random() * pwdCharsAll.lowercaseLetters.length)];
+}
+
+}
+*/
