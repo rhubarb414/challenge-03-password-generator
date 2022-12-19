@@ -61,6 +61,15 @@ var pwdCharsSelect = [];
 // function chooseNum(){}
 // function chooseSpecial(){}
 
+function randomPasswordLength() {
+  do {
+    value = Math.floor(Math.random() * 128) + 1;
+  }
+  while (value< 8);
+  console.log(value);
+  return value;
+  }
+
 function generatePassword() {
   var passwordArray = [];
 
