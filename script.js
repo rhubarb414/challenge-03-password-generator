@@ -19,7 +19,7 @@ var pwdCharsAll = {
 
 }
 
-var pwdCharsSelect = [];
+var selectedChars = []; //combines character types from pwdCharsAll based on user criteria
 
 /**** psuedo code 
  * generatePassword = function() {
@@ -70,12 +70,12 @@ function randomPasswordLength() {
 
   //runs prompts for user to select password criteria, generates the password, and returns it
 function generatePassword() {
-  var passwordArray = [];
   var passwordLength; //a value between 8 - 128 given by user or random
   var chooseLower = false; 
   var chooseUpper = false; 
   var chooseNum = false; 
   var chooseSpecial = false; 
+  var passwordArray = [];
 
   alert("We'll begin by setting your password criteria.");
 
@@ -91,6 +91,7 @@ function generatePassword() {
   //ask user if they want to include lowercase letters
   if (confirm("Click 'OK' if you'd like to include lowercase characters.")) {
    chooseLower = true;
+   
   }
 
   //ask user if they want to include upper letters
@@ -101,18 +102,38 @@ function generatePassword() {
   //ask user if they want to include numbers
   if (confirm("Click 'OK' if you'd like to include numbers.")) {
     chooseNum = true;
+ 
   }
 
   //ask user if they want to include special characters
    if (confirm("Click 'OK' if you'd like to include special characters.")) {
     chooseSpecial = true;
+
   }
 
   //confirm users criteria are correct
   if (confirm ("Confirm that you'd like a password with the following criteria: Length: " + passwordLength + ", Lowercase Letters: " +
     chooseLower + ", Uppercase Letters: " + chooseUpper + ", Numbers: " + chooseNum + ", Special Characters: " + chooseSpecial + ".")) {
-      console.log("generate password");
-    };
+    console.log("generate password");
+    //generate password
+
+    //make a combined array of eligble characters based on user criteria
+    if (chooseLower) {
+      selectedChars = selectedChars.concat(pwdCharsAll.lowercaseLetters);
+    }
+    if (chooseUpper) {
+      selectedChars = selectedChars.concat(pwdCharsAll.uppercaseLetters);
+    }
+    if (chooseNum) {
+      selectedChars = selectedChars.concat(pwdCharsAll.numbers);
+    }
+    if (chooseSpecial) {
+      selectedChars = selectedChars.concat(pwdCharsAll.specialChar);
+    }
+    console.log("selectedChars: ", selectedChars);
+  }
+
+
  
  
 
