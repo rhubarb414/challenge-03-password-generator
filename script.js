@@ -63,7 +63,7 @@ function randomPasswordLength() {
   do {
     value = Math.floor(Math.random() * 128) + 1;
   }
-  while (value< 8);
+  while (value < 8);
   console.log(value);
   return value;
   }
@@ -77,6 +77,10 @@ function generatePassword() {
   var chooseSpecial = false; 
   var selectedChars = []; //combines character types from pwdCharsAll based on user criteria
   var passwordArray = [];
+  var hasLower = false;
+  var hasUpper = false;
+  var hasNum = false;
+  var hasSpecial = false;
 
   alert("We'll begin by setting your password criteria.");
 
@@ -112,7 +116,7 @@ function generatePassword() {
 
   }
 
-  //confirm users criteria are correct
+  //confirm user's criteria are correct
   if (confirm ("Confirm that you'd like a password with the following criteria: Length: " + passwordLength + ", Lowercase Letters: " +
     chooseLower + ", Uppercase Letters: " + chooseUpper + ", Numbers: " + chooseNum + ", Special Characters: " + chooseSpecial + ".")) {
     console.log("generate password");
@@ -140,16 +144,104 @@ function generatePassword() {
       //chooses a random letter from selectedChars for each value in passwordArray
       passwordArray[i] = selectedChars[Math.floor(Math.random() * selectedChars.length)];
     }
+    console.log("first password: ", (passwordArray));
 
     //Step 3. Check that each of the selected character types are actually in the password
+    do {
+      //check lowercase   
+    if (chooseLower) {
+      for (var i = 0; i < passwordArray.length; i++) {
+        if (pwdCharsAll.lowercaseLetters.includes(passwordArray[i])) {
+          console.log('lowercase letter  "', (passwordArray[i]),  '" at index ', i);
+          hasLower = true;
+        }
+      }
+    }
     
+   //replace lowercase      
+    if (chooseLower !== hasLower){
+      console.log('missing lowercase: ', (passwordArray));
+       //replace random index of passwordArray with random lowercase letter
+      passwordArray[Math.floor(Math.random() * passwordArray.length)] = 
+      pwdCharsAll.lowercaseLetters[Math.floor(Math.random() * pwdCharsAll.lowercaseLetters.length)];
+      console.log('added lowercase letter', (passwordArray));
+      }
+ //check uppercase 
+    if (chooseUpper) {
+      for (var i = 0; i < passwordArray.length; i++) {
+        if (pwdCharsAll.uppercaseLetters.includes(passwordArray[i])) {
+          console.log('uppercase letter  "', (passwordArray[i]),  '" at index ', i);
+          hasUpper = true;
+        }
+      }
+    }
+     //replace uppercase 
+    if (chooseUpper !== hasUpper){
+      console.log('missing uppercase: ', (passwordArray));
+       //replace random index of passwordArray with random uppercase letter
+      passwordArray[Math.floor(Math.random() * passwordArray.length)] = 
+      pwdCharsAll.uppercaseLetters[Math.floor(Math.random() * pwdCharsAll.uppercaseLetters.length)];
+      console.log('added uppercase letter', (passwordArray));
+    }
+//check number 
+    if (chooseNum) {
+      for (var i = 0; i < passwordArray.length; i++) {
+        if (pwdCharsAll.numbers.includes(passwordArray[i])) {
+          console.log('number "', (passwordArray[i]),  '" at index ', i);
+          hasNum = true;
+        }
+      }
+    }
+    //replace number
+    if (chooseNum !== hasNum){
+      console.log('missing number: ', (passwordArray));
+       //replace random index of passwordArray with random number
+      passwordArray[Math.floor(Math.random() * passwordArray.length)] = 
+      pwdCharsAll.numbers[Math.floor(Math.random() * pwdCharsAll.numbers.length)];
+      console.log('added number', (passwordArray));
+    }
+ //check special
+    if (chooseSpecial) {
+      for (var i = 0; i < passwordArray.length; i++) {
+        if (pwdCharsAll.specialChar.includes(passwordArray[i])) {
+          console.log('special char  "', (passwordArray[i]),  '" at index ', i);
+          hasSpecial = true;
+        }
+      }
+    }
+
+    //replace special
+    if (chooseSpecial !== hasSpecial){
+      console.log('missing special char: ', (passwordArray));
+       //replace random index of passwordArray with random uppercase letter
+      passwordArray[Math.floor(Math.random() * passwordArray.length)] = 
+      pwdCharsAll.specialChar[Math.floor(Math.random() * pwdCharsAll.specialChar.length)];
+      console.log('added specialChar', (passwordArray));
+    }
+
+    //!!!! linear process can overwrite added characters without changing the 'has' value to false.
+    // results in pwd that doesn't meet criteria
+    // perhaps need to choose randomly from an array of passwordLength.length [0,1,2,3,4,5,6,7] to make the substitution,
+    // and then remove that value from the array so it doesn't get overwritten.
+
+  }
+  while (chooseLower !== hasLower || chooseUpper !== hasUpper || chooseNum !== hasNum || chooseSpecial !== hasSpecial);
+
+
+
+
 
 
  
  
 
 
-
+    //   passwordArray.forEach(letter) => {
+    //     if (pwdCharsAll.lowercaseLetters.includes(letter)) {
+    //       console.log('lowercase letter, ' letter);
+    //     }
+    //   }
+    // }
 
   
   
