@@ -89,8 +89,10 @@ function generatePassword() {
     //instead, I could start with a password containing all of one type of character.
     // then iterate through the remaining types while using 1 less character than the previous type.
     // then there should at least be one of each type of character left?
-  } else {for (var i = 0; i < 26; i++) {
-    passwordArray[i] = pwdCharsAll.lowercaseLetters[i];
+  } else {
+    passwordLength = randomPasswordLength();
+    for (var i = 0; i < passwordLength; i++) {
+    passwordArray[i] = pwdCharsAll.lowercaseLetters[Math.floor(Math.random() * pwdCharsAll.lowercaseLetters.length)];
   }
 
   }
