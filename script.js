@@ -19,7 +19,7 @@ var pwdCharsAll = {
 
 }
 
-var selectedChars = []; //combines character types from pwdCharsAll based on user criteria
+
 
 /**** psuedo code 
  * generatePassword = function() {
@@ -75,6 +75,7 @@ function generatePassword() {
   var chooseUpper = false; 
   var chooseNum = false; 
   var chooseSpecial = false; 
+  var selectedChars = []; //combines character types from pwdCharsAll based on user criteria
   var passwordArray = [];
 
   alert("We'll begin by setting your password criteria.");
@@ -115,9 +116,10 @@ function generatePassword() {
   if (confirm ("Confirm that you'd like a password with the following criteria: Length: " + passwordLength + ", Lowercase Letters: " +
     chooseLower + ", Uppercase Letters: " + chooseUpper + ", Numbers: " + chooseNum + ", Special Characters: " + chooseSpecial + ".")) {
     console.log("generate password");
-    //generate password
 
-    //make a combined array of eligble characters based on user criteria
+    //~~Commence generating password~~
+
+    //Step 1. Make a combined array of eligble characters based on user criteria
     if (chooseLower) {
       selectedChars = selectedChars.concat(pwdCharsAll.lowercaseLetters);
     }
@@ -132,6 +134,15 @@ function generatePassword() {
     }
     console.log("selectedChars: ", selectedChars);
   }
+
+    //Step 2. Generate random password from eligble characters
+    for (var i = 0; i < passwordLength; i++) {
+      //chooses a random letter from selectedChars for each value in passwordArray
+      passwordArray[i] = selectedChars[Math.floor(Math.random() * selectedChars.length)];
+    }
+
+    //Step 3. Check that each of the selected character types are actually in the password
+    
 
 
  
