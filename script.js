@@ -81,6 +81,8 @@ function generatePassword() {
 
   // ask user for a password length or create random length
   if (confirm("Click 'OK' if you'd like to choose a specific password length. Otherwise, a random length will be chosen.")) {
+    //issue here if user cancels the prompt to enter a value. Also, if they don't enter a value between 8 -128.
+    //perhaps I can add a for loop after this that checks before proceeding with the other criteria.
     passwordLength = prompt("Enter number between 8 - 128 for your password length:");
   } else {
     passwordLength = randomPasswordLength();
@@ -105,6 +107,12 @@ function generatePassword() {
    if (confirm("Click 'OK' if you'd like to include special characters.")) {
     chooseSpecial = true;
   }
+
+  //confirm users criteria are correct
+  if (confirm ("Confirm that you'd like a password with the following criteria: Length: " + passwordLength + ", Lowercase Letters: " +
+    chooseLower + ", Uppercase Letters: " + chooseUpper + ", Numbers: " + chooseNum + ", Special Characters: " + chooseSpecial + ".")) {
+      console.log("generate password");
+    };
  
  
 
