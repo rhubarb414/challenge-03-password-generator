@@ -1,5 +1,6 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
+var iteration = 0; //for check testing
 
 var passwordCriteria = {
   chooseLength: 0,
@@ -244,6 +245,13 @@ function generatePassword() {
   console.log(canReplace);
 
   do {
+    iteration++;
+    //reset booleans after each iteration.
+    hasLower = false;
+    hasUpper = false;
+    hasNum = false;
+    hasSpecial = false;
+
     //check lowercase
     if (chooseLower) {
       for (var i = 0; i < passwordArray.length; i++) {
@@ -425,6 +433,16 @@ function generatePassword() {
     // results in pwd that doesn't meet criteria
     // perhaps need to choose randomly from an array of passwordLength.length [0,1,2,3,4,5,6,7] to make the substitution,
     // and then remove that value from the array so it doesn't get overwritten.
+
+    console.log(
+      "end of iteration",
+      iteration,
+      "has* status: ",
+      hasLower,
+      hasUpper,
+      hasNum,
+      hasSpecial
+    );
   } while (
     chooseLower !== hasLower ||
     chooseUpper !== hasUpper ||
@@ -445,6 +463,8 @@ function generatePassword() {
   // return(passwordArray.join(''));
   password = passwordArray.join("");
   console.log(password);
+  iteration = 0; //reset iteration var for next password
+
   return password;
 }
 // chooseLength();
