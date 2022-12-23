@@ -167,7 +167,8 @@ function generatePassword() {
     choseSpecial = true;
   }
 
-  //confirm user's criteria are correct
+  //confirm user's criteria are correct before generating password
+  //user can cancel out at this point.
   if (
     confirm(
       "Confirm that you'd like a password with the following criteria: Length: " +
@@ -198,149 +199,152 @@ function generatePassword() {
     if (choseSpecial) {
       selectedChars = selectedChars.concat(pwdCharsAll.specialChar);
     }
+
+    //Step 2. Generate random password from eligble characters
+    for (var i = 0; i < passwordLength; i++) {
+      //chooses a random letter from selectedChars for each value in passwordArray
+      passwordArray[i] =
+        selectedChars[Math.floor(Math.random() * selectedChars.length)];
+    }
+
+    //Step 3. Check that each of the selected character types are actually in the password,
+    //if character types are missing, add them.
+
+    //set up canReplace so that any character in the password can be replaced to start.
+    for (let index = 0; index < passwordArray.length; index++) {
+      canReplace.push(index);
+    }
+
+    do {
+      //reset has* booleans before each pass to ensure the check is accurate.
+      hasLower = false;
+      hasUpper = false;
+      hasNum = false;
+      hasSpecial = false;
+
+      //check for lowercase if part of criteria
+      if (choseLower) {
+        for (var i = 0; i < passwordArray.length; i++) {
+          if (pwdCharsAll.lowercaseLetters.includes(passwordArray[i])) {
+            hasLower = true;
+          }
+        }
+      }
+
+      //add lowercase character if there should be one
+      if (choseLower !== hasLower) {
+        //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
+        replaceIndex =
+          canReplace[Math.floor(Math.random() * canReplace.length)];
+
+        //replace random index of passwordArray with random lowercase letter
+        passwordArray[replaceIndex] =
+          pwdCharsAll.lowercaseLetters[
+            Math.floor(Math.random() * pwdCharsAll.lowercaseLetters.length)
+          ];
+
+        //remove replaceIndex from canReplace array so it can't be overwritten by subsequent character type checks
+        for (let index = 0; index < canReplace.length; index++) {
+          if (replaceIndex === canReplace[index]) {
+            canReplace.splice(index, 1);
+          }
+        }
+      }
+
+      //check for uppercase if part of criteria
+      if (choseUpper) {
+        for (var i = 0; i < passwordArray.length; i++) {
+          if (pwdCharsAll.uppercaseLetters.includes(passwordArray[i])) {
+            hasUpper = true;
+          }
+        }
+      }
+
+      //add uppercase if there should be one
+      if (choseUpper !== hasUpper) {
+        //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
+        replaceIndex =
+          canReplace[Math.floor(Math.random() * canReplace.length)];
+
+        //replace random index of passwordArray with random uppercase letter
+        passwordArray[replaceIndex] =
+          pwdCharsAll.uppercaseLetters[
+            Math.floor(Math.random() * pwdCharsAll.uppercaseLetters.length)
+          ];
+
+        //remove replaceIndex from canReplace array so it can't be overwritten by subsequent character type checks
+        for (let index = 0; index < canReplace.length; index++) {
+          if (replaceIndex === canReplace[index]) {
+            canReplace.splice(index, 1);
+          }
+        }
+      }
+
+      //check for number if part of criteria
+      if (choseNum) {
+        for (var i = 0; i < passwordArray.length; i++) {
+          if (pwdCharsAll.numbers.includes(passwordArray[i])) {
+            hasNum = true;
+          }
+        }
+      }
+
+      //add number if there should be one
+      if (choseNum !== hasNum) {
+        //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
+        replaceIndex =
+          canReplace[Math.floor(Math.random() * canReplace.length)];
+
+        //replace random index of passwordArray with random number
+        passwordArray[replaceIndex] =
+          pwdCharsAll.numbers[
+            Math.floor(Math.random() * pwdCharsAll.numbers.length)
+          ];
+
+        //remove replaceIndex from canReplace array so it can't be overwritten by subsequent character type checks
+        for (let index = 0; index < canReplace.length; index++) {
+          if (replaceIndex === canReplace[index]) {
+            canReplace.splice(index, 1);
+          }
+        }
+      }
+
+      //check for special character if part of criteria
+      if (choseSpecial) {
+        for (var i = 0; i < passwordArray.length; i++) {
+          if (pwdCharsAll.specialChar.includes(passwordArray[i])) {
+            hasSpecial = true;
+          }
+        }
+      }
+
+      //add special character if there should be one
+      if (choseSpecial !== hasSpecial) {
+        //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
+        replaceIndex =
+          canReplace[Math.floor(Math.random() * canReplace.length)];
+        //replace random index of passwordArray with random uppercase letter
+        passwordArray[replaceIndex] =
+          pwdCharsAll.specialChar[
+            Math.floor(Math.random() * pwdCharsAll.specialChar.length)
+          ];
+        //remove replaceIndex from canReplace array so it can't be overwritten by subsequent character type checks
+        for (let index = 0; index < canReplace.length; index++) {
+          if (replaceIndex === canReplace[index]) {
+            canReplace.splice(index, 1);
+          }
+        }
+      }
+    } while (
+      choseLower !== hasLower ||
+      choseUpper !== hasUpper ||
+      choseNum !== hasNum ||
+      choseSpecial !== hasSpecial
+    );
+    // end of check step
+
+    return passwordArray.join("");
   }
-
-  //Step 2. Generate random password from eligble characters
-  for (var i = 0; i < passwordLength; i++) {
-    //chooses a random letter from selectedChars for each value in passwordArray
-    passwordArray[i] =
-      selectedChars[Math.floor(Math.random() * selectedChars.length)];
-  }
-
-  //Step 3. Check that each of the selected character types are actually in the password,
-  //if character types are missing, add them.
-
-  //set up canReplace so that any character in the password can be replaced to start.
-  for (let index = 0; index < passwordArray.length; index++) {
-    canReplace.push(index);
-  }
-
-  do {
-    //reset has* booleans before each pass to ensure the check is accurate.
-    hasLower = false;
-    hasUpper = false;
-    hasNum = false;
-    hasSpecial = false;
-
-    //check for lowercase if part of criteria
-    if (choseLower) {
-      for (var i = 0; i < passwordArray.length; i++) {
-        if (pwdCharsAll.lowercaseLetters.includes(passwordArray[i])) {
-          hasLower = true;
-        }
-      }
-    }
-
-    //add lowercase character if there should be one
-    if (choseLower !== hasLower) {
-      //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
-      replaceIndex = canReplace[Math.floor(Math.random() * canReplace.length)];
-
-      //replace random index of passwordArray with random lowercase letter
-      passwordArray[replaceIndex] =
-        pwdCharsAll.lowercaseLetters[
-          Math.floor(Math.random() * pwdCharsAll.lowercaseLetters.length)
-        ];
-
-      //remove replaceIndex from canReplace array so it can't be overwritten by subsequent character type checks
-      for (let index = 0; index < canReplace.length; index++) {
-        if (replaceIndex === canReplace[index]) {
-          canReplace.splice(index, 1);
-        }
-      }
-    }
-
-    //check for uppercase if part of criteria
-    if (choseUpper) {
-      for (var i = 0; i < passwordArray.length; i++) {
-        if (pwdCharsAll.uppercaseLetters.includes(passwordArray[i])) {
-          hasUpper = true;
-        }
-      }
-    }
-
-    //add uppercase if there should be one
-    if (choseUpper !== hasUpper) {
-      //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
-      replaceIndex = canReplace[Math.floor(Math.random() * canReplace.length)];
-
-      //replace random index of passwordArray with random uppercase letter
-      passwordArray[replaceIndex] =
-        pwdCharsAll.uppercaseLetters[
-          Math.floor(Math.random() * pwdCharsAll.uppercaseLetters.length)
-        ];
-
-      //remove replaceIndex from canReplace array so it can't be overwritten by subsequent character type checks
-      for (let index = 0; index < canReplace.length; index++) {
-        if (replaceIndex === canReplace[index]) {
-          canReplace.splice(index, 1);
-        }
-      }
-      console.log("new canReplace, ", canReplace);
-    }
-
-    //check for number if part of criteria
-    if (choseNum) {
-      for (var i = 0; i < passwordArray.length; i++) {
-        if (pwdCharsAll.numbers.includes(passwordArray[i])) {
-          hasNum = true;
-        }
-      }
-    }
-
-    //add number if there should be one
-    if (choseNum !== hasNum) {
-      //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
-      replaceIndex = canReplace[Math.floor(Math.random() * canReplace.length)];
-
-      //replace random index of passwordArray with random number
-      passwordArray[replaceIndex] =
-        pwdCharsAll.numbers[
-          Math.floor(Math.random() * pwdCharsAll.numbers.length)
-        ];
-
-      //remove replaceIndex from canReplace array so it can't be overwritten by subsequent character type checks
-      for (let index = 0; index < canReplace.length; index++) {
-        if (replaceIndex === canReplace[index]) {
-          canReplace.splice(index, 1);
-        }
-      }
-    }
-
-    //check for special character if part of criteria
-    if (choseSpecial) {
-      for (var i = 0; i < passwordArray.length; i++) {
-        if (pwdCharsAll.specialChar.includes(passwordArray[i])) {
-          hasSpecial = true;
-        }
-      }
-    }
-
-    //add special character if there should be one
-    if (choseSpecial !== hasSpecial) {
-      //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
-      replaceIndex = canReplace[Math.floor(Math.random() * canReplace.length)];
-      //replace random index of passwordArray with random uppercase letter
-      passwordArray[replaceIndex] =
-        pwdCharsAll.specialChar[
-          Math.floor(Math.random() * pwdCharsAll.specialChar.length)
-        ];
-      //remove replaceIndex from canReplace array so it can't be overwritten by subsequent character type checks
-      for (let index = 0; index < canReplace.length; index++) {
-        if (replaceIndex === canReplace[index]) {
-          canReplace.splice(index, 1);
-        }
-      }
-    }
-  } while (
-    choseLower !== hasLower ||
-    choseUpper !== hasUpper ||
-    choseNum !== hasNum ||
-    choseSpecial !== hasSpecial
-  );
-  // end of check step
-
-  return passwordArray.join("");
 }
 
 // Write password to the #password input
