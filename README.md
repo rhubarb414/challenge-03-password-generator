@@ -31,7 +31,7 @@ The coolest part, in my opinion, actually didn't end up in the final code, which
 
 ## Usage
 
-The deployed password generator is located here: [https://rhubarb414.github.io/challenge-03-password-generator/]
+The deployed password generator is located here: https://rhubarb414.github.io/challenge-03-password-generator/
 
 Almost all the interaction takes place through JS prompts, where the user is asked to select the password criteria. Once the criteria is set and confirmed, the password is displayed on the page.
 
