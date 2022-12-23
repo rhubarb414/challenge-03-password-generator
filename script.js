@@ -104,6 +104,8 @@ function randomPasswordLength() {
 
 //runs prompts for user to select password criteria, generates the password, checks for proper character mix, and returns password
 function generatePassword() {
+  // ~~~ Begin variables and subfunction defintions ~~~
+
   var passwordLength; //a value between 8 - 128 given by user or random
 
   //chose* vars are set to true if user selects them
@@ -122,12 +124,31 @@ function generatePassword() {
   var hasSpecial = false;
 
   var canReplace = []; // used in check phase so that characters are only replaced once
-  var replaceIndex; // this index will be spliced from canReplace after it's been substituted
+  var replaceIndex; // this character index will be spliced from canReplace after it's been substituted
 
-  //opening message
+  //called during check phase to add in character type if one is missing.
+  function replaceChar(pwdCharsAllArray) {
+    //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
+    replaceIndex = canReplace[Math.floor(Math.random() * canReplace.length)];
+
+    //replace random index of passwordArray with random character from selected array in pwdChar
+    passwordArray[replaceIndex] =
+      pwdCharsAllArray[Math.floor(Math.random() * pwdCharsAllArray.length)];
+
+    //remove replaceIndex from canReplace array so it can't be overwritten by subsequent character type checks
+    for (let index = 0; index < canReplace.length; index++) {
+      if (replaceIndex === canReplace[index]) {
+        canReplace.splice(index, 1);
+      }
+    }
+  }
+
+  // ~~~ End variables and subfunction defintions ~~~
+
+  // ~~~ opening message
   alert("We'll begin by setting your password criteria.");
 
-  // ask user for a password length or create random length
+  // ~~~ ask user for a password length or create random length
   if (
     confirm(
       "Click 'OK' if you'd like to choose a specific password length. Otherwise, a random length will be chosen."
@@ -147,17 +168,17 @@ function generatePassword() {
     passwordLength = randomPasswordLength();
   }
 
-  //ask user if they want to include lowercase letters
+  // ~~~ ask user if they want to include lowercase letters
   if (confirm("Click 'OK' if you'd like to include lowercase characters.")) {
     choseLower = true;
   }
 
-  //ask user if they want to include upper letters
+  // ~~~ ask user if they want to include upper letters
   if (confirm("Click 'OK' if you'd like to include uppercase characters.")) {
     choseUpper = true;
   }
 
-  //ask user if they want to include numbers
+  // ~~~ ask user if they want to include numbers
   if (confirm("Click 'OK' if you'd like to include numbers.")) {
     choseNum = true;
   }
@@ -167,7 +188,7 @@ function generatePassword() {
     choseSpecial = true;
   }
 
-  //confirm user's criteria are correct before generating password
+  // ~~~ confirm user's criteria are correct before generating password
   //user can cancel out at this point.
   if (
     confirm(
@@ -184,7 +205,7 @@ function generatePassword() {
         "."
     )
   ) {
-    //~~Commence generating password in 3 steps~~
+    // ~~~ Commence generating password in 3 steps ~~~
 
     //Step 1. Concat a combined array of eligble characters based on user criteria
     if (choseLower) {
@@ -216,7 +237,7 @@ function generatePassword() {
     }
 
     do {
-      //reset has* booleans before each pass to ensure the check is accurate.
+      //reset has* booleans before each pass to ensure the check is accurate
       hasLower = false;
       hasUpper = false;
       hasNum = false;
@@ -230,25 +251,9 @@ function generatePassword() {
           }
         }
       }
-
       //add lowercase character if there should be one
       if (choseLower !== hasLower) {
-        //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
-        replaceIndex =
-          canReplace[Math.floor(Math.random() * canReplace.length)];
-
-        //replace random index of passwordArray with random lowercase letter
-        passwordArray[replaceIndex] =
-          pwdCharsAll.lowercaseLetters[
-            Math.floor(Math.random() * pwdCharsAll.lowercaseLetters.length)
-          ];
-
-        //remove replaceIndex from canReplace array so it can't be overwritten by subsequent character type checks
-        for (let index = 0; index < canReplace.length; index++) {
-          if (replaceIndex === canReplace[index]) {
-            canReplace.splice(index, 1);
-          }
-        }
+        replaceChar(pwdCharsAll.lowercaseLetters);
       }
 
       //check for uppercase if part of criteria
@@ -259,25 +264,9 @@ function generatePassword() {
           }
         }
       }
-
-      //add uppercase if there should be one
+      //add uppercase character if there should be one
       if (choseUpper !== hasUpper) {
-        //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
-        replaceIndex =
-          canReplace[Math.floor(Math.random() * canReplace.length)];
-
-        //replace random index of passwordArray with random uppercase letter
-        passwordArray[replaceIndex] =
-          pwdCharsAll.uppercaseLetters[
-            Math.floor(Math.random() * pwdCharsAll.uppercaseLetters.length)
-          ];
-
-        //remove replaceIndex from canReplace array so it can't be overwritten by subsequent character type checks
-        for (let index = 0; index < canReplace.length; index++) {
-          if (replaceIndex === canReplace[index]) {
-            canReplace.splice(index, 1);
-          }
-        }
+        replaceChar(pwdCharsAll.uppercaseLetters);
       }
 
       //check for number if part of criteria
@@ -288,25 +277,9 @@ function generatePassword() {
           }
         }
       }
-
       //add number if there should be one
       if (choseNum !== hasNum) {
-        //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
-        replaceIndex =
-          canReplace[Math.floor(Math.random() * canReplace.length)];
-
-        //replace random index of passwordArray with random number
-        passwordArray[replaceIndex] =
-          pwdCharsAll.numbers[
-            Math.floor(Math.random() * pwdCharsAll.numbers.length)
-          ];
-
-        //remove replaceIndex from canReplace array so it can't be overwritten by subsequent character type checks
-        for (let index = 0; index < canReplace.length; index++) {
-          if (replaceIndex === canReplace[index]) {
-            canReplace.splice(index, 1);
-          }
-        }
+        replaceChar(pwdCharsAll.numbers);
       }
 
       //check for special character if part of criteria
@@ -317,23 +290,9 @@ function generatePassword() {
           }
         }
       }
-
       //add special character if there should be one
       if (choseSpecial !== hasSpecial) {
-        //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
-        replaceIndex =
-          canReplace[Math.floor(Math.random() * canReplace.length)];
-        //replace random index of passwordArray with random uppercase letter
-        passwordArray[replaceIndex] =
-          pwdCharsAll.specialChar[
-            Math.floor(Math.random() * pwdCharsAll.specialChar.length)
-          ];
-        //remove replaceIndex from canReplace array so it can't be overwritten by subsequent character type checks
-        for (let index = 0; index < canReplace.length; index++) {
-          if (replaceIndex === canReplace[index]) {
-            canReplace.splice(index, 1);
-          }
-        }
+        replaceChar(pwdCharsAll.specialChar);
       }
     } while (
       choseLower !== hasLower ||
@@ -347,7 +306,7 @@ function generatePassword() {
   }
 }
 
-// Write password to the #password input
+// ~~~ Write password to the #password input
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
