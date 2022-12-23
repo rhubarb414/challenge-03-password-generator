@@ -24,7 +24,7 @@ function randomPasswordLength() {
   return value;
 }
 
-//runs prompts for user to select password criteria, generates the password, 
+// generatePassword runs prompts for user to select password criteria, generates the password, 
 // checks for proper character mix, and returns password
 function generatePassword() {
 
@@ -51,7 +51,7 @@ function generatePassword() {
   var canReplace = []; // used in check phase so that characters are only replaced one time
   var replaceIndex; // this index in passwordArray will get a new character type during the check phase
 
-  //called during check phase to add in character type if one is missing.
+  //replaceChar is called during check phase to add in character type if one is missing.
   //takes in an array from pwdCharsAll object
   function replaceChar(pwdCharsAllArray) {
     //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
