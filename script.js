@@ -142,7 +142,6 @@ function generatePassword() {
       }
     }
   }
-
   // ~~~ End variables and subfunction defintions ~~~
 
   // ~~~ opening message
@@ -189,7 +188,7 @@ function generatePassword() {
   }
 
   // ~~~ confirm user's criteria are correct before generating password
-  //user can cancel out at this point.
+  // user can cancel out at this point and an undefined message will be shown as password.
   if (
     confirm(
       "Confirm that you'd like a password with the following criteria: Length: " +
@@ -229,7 +228,7 @@ function generatePassword() {
     }
 
     //Step 3. Check that each of the selected character types are actually in the password,
-    //if character types are missing, add them.
+    // if character types are missing, add them.
 
     //set up canReplace so that any character in the password can be replaced to start.
     for (let index = 0; index < passwordArray.length; index++) {
