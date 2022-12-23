@@ -1,97 +1,19 @@
-// Assignment Code
+// ~~~ global variable declarations
+
 var generateBtn = document.querySelector("#generate");
 
-var passwordCriteria = {
-  choseLength: 0,
-  choseLower: 0,
-  choseUpper: 0,
-  choseNum: 0,
-  choseSpecial: 0,
-};
-
+//object holding all possible password characters
 var pwdCharsAll = {
   lowercaseLetters: [
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "k",
-    "j",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z",
-  ],
+    "a","b","c","d","e","f","g","h","i","k","j","l","m","n","o",
+    "p","q","r","s","t","u","v","w","x","y","z",],
   uppercaseLetters: [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "K",
-    "J",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-  ],
+    "A","B","C","D","E","F","G","H","I","K","J","L","M","N","O",
+    "P","Q","R","S","T","U","V","W","X","Y","Z",],
   numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   specialChar: [
-    "!",
-    "#",
-    "$",
-    "%",
-    "&",
-    "(",
-    ")",
-    "*",
-    "+",
-    "-",
-    ".",
-    "/",
-    ":",
-    ";",
-    "<",
-    "=",
-    ">",
-    "?",
-    "@",
-    "^",
-    "_",
-    "|",
-    "~",
-  ],
+    "!","#","$","%","&","(",")","*","+","-",".","/",":",";","<",
+    "=",">","?","@","^","_","|","~",],
 };
 
 //returns a random value between 8 and 128
@@ -102,36 +24,40 @@ function randomPasswordLength() {
   return value;
 }
 
-//runs prompts for user to select password criteria, generates the password, checks for proper character mix, and returns password
+//runs prompts for user to select password criteria, generates the password, 
+// checks for proper character mix, and returns password
 function generatePassword() {
-  // ~~~ Begin variables and subfunction defintions ~~~
 
-  var passwordLength; //a value between 8 - 128 given by user or random
+  // ~~~ Begin subvariables and subfunction defintions ~~~
 
-  //chose* vars are set to true if user selects them
+  var passwordLength; //a number between 8 - 128, either given by user or random
+
+  //chose* vars are set to true as user selects password criteria
   var choseLower = false;
   var choseUpper = false;
   var choseNum = false;
   var choseSpecial = false;
 
-  var selectedChars = []; //combines character types from pwdCharsAll object based on user selection
+  var selectedChars = []; //combines character type arrays from pwdCharsAll based on user selection
   var passwordArray = []; //each letter of password
 
-  //has* vars used in the check phase to see if password actually contains at least one of each character type selected by user
+  //has* vars used in the check phase to see if password actually contains at least 
+  // one of each character type selected by user
   var hasLower = false;
   var hasUpper = false;
   var hasNum = false;
   var hasSpecial = false;
 
-  var canReplace = []; // used in check phase so that characters are only replaced once
-  var replaceIndex; // this character index will be spliced from canReplace after it's been substituted
+  var canReplace = []; // used in check phase so that characters are only replaced one time
+  var replaceIndex; // this index in passwordArray will get a new character type during the check phase
 
   //called during check phase to add in character type if one is missing.
+  //takes in an array from pwdCharsAll object
   function replaceChar(pwdCharsAllArray) {
     //picks random eligible index from canReplace to designate which index will be replaced in passwordArray
     replaceIndex = canReplace[Math.floor(Math.random() * canReplace.length)];
 
-    //replace random index of passwordArray with random character from selected array in pwdChar
+    //replace random index of passwordArray with random character from selected array in pwdCharsAll
     passwordArray[replaceIndex] =
       pwdCharsAllArray[Math.floor(Math.random() * pwdCharsAllArray.length)];
 
@@ -164,6 +90,7 @@ function generatePassword() {
       );
     }
   } else {
+    //create random password length if user cancels
     passwordLength = randomPasswordLength();
   }
 
@@ -191,17 +118,12 @@ function generatePassword() {
   // user can cancel out at this point and an undefined message will be shown as password.
   if (
     confirm(
-      "Confirm that you'd like a password with the following criteria: Length: " +
-        passwordLength +
-        ", Lowercase Letters: " +
-        choseLower +
-        ", Uppercase Letters: " +
-        choseUpper +
-        ", Numbers: " +
-        choseNum +
-        ", Special Characters: " +
-        choseSpecial +
-        "."
+      "Confirm that you'd like a password with the following criteria:\n" + 
+      "Length: " + passwordLength + ",\n" + 
+      "Lowercase Letters: " + choseLower + ",\n" +
+      "Uppercase Letters: " + choseUpper + ", \n" +
+      "Numbers: " + choseNum + ",\n" +
+      "Special Characters: " + choseSpecial + "."
     )
   ) {
     // ~~~ Commence generating password in 3 steps ~~~
@@ -227,8 +149,8 @@ function generatePassword() {
         selectedChars[Math.floor(Math.random() * selectedChars.length)];
     }
 
-    //Step 3. Check that each of the selected character types are actually in the password,
-    // if character types are missing, add them.
+    //Step 3. Check that each of the selected character types are actually in the password.
+    // If character types are missing, add them.
 
     //set up canReplace so that any character in the password can be replaced to start.
     for (let index = 0; index < passwordArray.length; index++) {
