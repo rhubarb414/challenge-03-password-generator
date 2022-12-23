@@ -35,7 +35,7 @@ The deployed password generator is located here: [https://rhubarb414.github.io/c
 
 Almost all the interaction takes place through JS prompts, where the user is asked to select the password criteria. Once the criteria is set and confirmed, the password is displayed on the page.
 
-Here's a gif of generator in action:
+Here's a gif of the page in action:
 
  ![demonstration of the password generator being used from start to finish](assets/images/password-generator-demo.gif)
 
@@ -47,6 +47,6 @@ The HTML and CSS is purely from the UC Berkley Coding Bootcamp, while the passwo
 See MIT license in repo. _Note that it only applies to the original Javascript lines and not to the code provided by the bootcamp._
 
 ## Tests
-I spent a lot of time testing this app with variables set for debugging and many console logs. Here's a screenshot of the JS console during peak test phase:
+I spent a lot of time testing this app with variables set for debugging and many console logs. Here's a screenshot of the JS console during peak test phase. I was using 4 letter passwords with 4 different character types to maximize the chance I'd be missing one of the types:
 
 ![screenshot of javascript console that shows the password generator developing the password, and then checking and replacing characters until the password criteria is met](assets/images/testing-example.png)
