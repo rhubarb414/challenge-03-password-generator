@@ -90,7 +90,6 @@ var pwdCharsAll = {
     "@",
     "^",
     "_",
-    "`",
     "|",
     "~",
   ],
@@ -140,7 +139,7 @@ function randomPasswordLength() {
 
 //runs prompts for user to select password criteria, generates the password, and returns it
 function generatePassword() {
-  var passwordLength; //a value between 8 - 128 given by user or random
+  var passwordLength; //will be a value between 8 - 128 given by user or random
   var chooseLower = false;
   var chooseUpper = false;
   var chooseNum = false;
@@ -164,9 +163,17 @@ function generatePassword() {
   ) {
     //issue here if user cancels the prompt to enter a value. Also, if they don't enter a value between 8 -128.
     //perhaps I can add a for loop after this that checks before proceeding with the other criteria.
-    passwordLength = prompt(
-      "Enter number between 8 - 128 for your password length:"
-    );
+    while (
+      Number.isFinite(passwordLength) === false ||
+      passwordLength < 8 ||
+      passwordLength > 128
+    ) {
+      console.log("Number(passwordLength): ", Number(passwordLength));
+      passwordLength = Number(
+        prompt("Enter number between 8 - 128 for your password length:")
+      );
+      console.log("typeof passwordLength: ", typeof passwordLength);
+    }
   } else {
     passwordLength = randomPasswordLength();
   }
